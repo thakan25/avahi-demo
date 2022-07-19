@@ -1,6 +1,15 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+
 #ignore script file
 run.sh
 
 *.swp
-.~
+*.o
+*.so
+*.a
 thumbs.db
