@@ -1,2 +1,6 @@
 #ignore script file
 run.sh
+
+*.swp
+.~
+thumbs.db
