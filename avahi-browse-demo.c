@@ -45,7 +45,7 @@ void resolve_callback(
     AvahiLookupResultFlags flags,
     void* userdata) {
     assert(r);
-    fprintf(stderr, "resolve counter = %d\n\n", counter++);
+    
     /* Called whenever a service has been resolved successfully or timed out */
     switch (event) {
         case AVAHI_RESOLVER_FAILURE:
@@ -88,16 +88,13 @@ void browse_callback(
     const char *domain,
     AvahiLookupResultFlags flags,
     void* userdata) {
-    // fprintf(stderr, "entering browse_callback\n\n");
-    // return ;
+
     AvahiClient *c = (AvahiClient*)avahi_service_browser_get_client(b);
     assert(b);
 
     (void) interface;
     (void) protocol;
     (void) userdata;
-    
-    fprintf(stderr, "browse counter = %d\n\n", counter++);
     
     /* Called whenever a new services becomes available on the LAN or is removed from the LAN */
     switch (event) {
@@ -112,8 +109,6 @@ void browse_callback(
                the callback function is called the server will free
                the resolver for us. */
                
-               //SACHIN THAKAN: lets break to see what info browse callback got us
-               //break;
             if (!(avahi_service_resolver_new(c, interface, protocol, name, type, domain, AVAHI_PROTO_UNSPEC, (AvahiLookupFlags)0, resolve_callback, c)))
                 fprintf(stderr, "Failed to resolve service '%s': %s\n", name, avahi_strerror(avahi_client_errno(c)));
             break;
@@ -129,22 +124,12 @@ void browse_callback(
 
 
 int main(int argc, char*argv[]) {
-    
-    fprintf(stderr, "=================================================\n\n");
-
+  
     int error;
-    int ret = 1;
+    int ret = 0;
     
-   
-   avahi_initialize();
+    avahi_initialize();
 
-   if(avahi_client){
-       fprintf(stderr, "avahi_client is not null after initialization\n");
-   }
-
-//    return ;
-
-//    fprintf(stderr, "size of avahi_client  = %d\n", sizeof(avahi_client));
     /* Check wether creating the client object succeeded */
     if (!avahi_client) {
         fprintf(stderr, "Failed to create client: %s\n", avahi_strerror(error));
@@ -154,7 +139,7 @@ int main(int argc, char*argv[]) {
     /* Create the service browser */
     browse_services("_ipp._tcp");
 
-    if (sb) {
+    if (!sb) {
         fprintf(stderr, "Failed to create service browser: %s\n", avahi_strerror(avahi_client_errno(avahi_client)));
         goto fail;
     }

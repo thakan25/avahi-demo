@@ -19,7 +19,6 @@
 #include <stdio.h>
 
 #define _CUPS_NO_DEPRECATED
-//#include <cups/cups-private.h>
 #include <errno.h>
 
 #define HAVE_AVAHI
@@ -103,14 +102,8 @@ extern char* errorContext;
 
 extern int err;
 
-
 /*
- * Local globals...
- */
-
-
-/*
- * Local functions...
+ * callback declarations
  */
 
 #ifdef HAVE_MDNSRESPONDER
@@ -130,11 +123,6 @@ extern void		client_callback(AvahiClient *client,
 					AvahiClientState state,
 					void *context);
 #endif /* HAVE_MDNSRESPONDER */
-
-// static int		avahi_compare_services(avahi_srv_t *a, avahi_srv_t *b);
-static const char	*dnssd_error_string(int error);
-// static avahi_srv_t	*avahi_get_service(cups_array_t *services, const char *serviceName, const char *regtype, const char *replyDomain) _CUPS_NONNULL(1,2,3,4);
-// static int		avahi_list_service(avahi_srv_t *service);
 
 #ifdef HAVE_MDNSRESPONDER
 extern void DNSSD_API	resolve_callback(DNSServiceRef sdRef, DNSServiceFlags flags, uint32_t interfaceIndex, DNSServiceErrorType errorCode, const char *fullName, const char *hostTarget, uint16_t port, uint16_t txtLen, const unsigned char *txtRecord, void *context) _CUPS_NONNULL(1,5,6,9, 10);
