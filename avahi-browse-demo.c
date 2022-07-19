@@ -90,8 +90,13 @@ void browse_callback(
     void* userdata) {
     // fprintf(stderr, "entering browse_callback\n\n");
     // return ;
-    AvahiClient *c = (AvahiClient*)userdata;
+    AvahiClient *c = (AvahiClient*)avahi_service_browser_get_client(b);
     assert(b);
+
+    (void) interface;
+    (void) protocol;
+    (void) userdata;
+    
     fprintf(stderr, "browse counter = %d\n\n", counter++);
     
     /* Called whenever a new services becomes available on the LAN or is removed from the LAN */
@@ -125,14 +130,19 @@ void browse_callback(
 
 int main(int argc, char*argv[]) {
     
+    fprintf(stderr, "=================================================\n\n");
+
     int error;
     int ret = 1;
+    
    
-   avahi_client = avahi_initialize();
+   avahi_initialize();
 
    if(avahi_client){
-       fprintf(stderr, "avahi_client is not null after initializatoin");
+       fprintf(stderr, "avahi_client is not null after initialization\n");
    }
+
+//    return ;
 
 //    fprintf(stderr, "size of avahi_client  = %d\n", sizeof(avahi_client));
     /* Check wether creating the client object succeeded */

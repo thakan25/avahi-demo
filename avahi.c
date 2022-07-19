@@ -85,7 +85,7 @@ int avahi_initialize()
 
     int error;
     /* allocate a new client */
-    avahi_client = avahi_client_new(avahi_simple_poll_get(avahi_poll), (AvahiClientFlags)0, client_callback, NULL, &error);
+    avahi_client = avahi_client_new(avahi_simple_poll_get(avahi_poll), (AvahiClientFlags)0, client_callback, avahi_poll, &error);
 
     // if(avahi_poll){
     //     fprintf(stderr, "avahi_poll is allocated second\n");
@@ -130,7 +130,7 @@ void browse_services(char *regtype)
     // assuming avahi_service_browser_new returns NULL on failure
    if (!sb)
     {
-        fprintf(stderr, "client->error = %d\n\n\n", avahi_client->error);
+        // fprintf(stderr, "client->error = %d\n\n\n", sizeof(AvahiClient));
         
     //    err = avahi_client_errno(NULL);
     }
@@ -188,6 +188,12 @@ client_callback(
     /*
      * If the connection drops, quit.
      */
+
+    // if(!client){
+    //     fprintf(stderr, "client_callback: 'client' parameter is NULL\n");
+    // }
+
+    fprintf(stderr, "client_callback: client_callback called\n");
 
     if (state == AVAHI_CLIENT_FAILURE)
     {
